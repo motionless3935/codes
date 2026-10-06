@@ -245,13 +245,13 @@ function initSimulationSandbox() {
     const w = canvas.getBoundingClientRect().width || 1000;
     const h = 480;
 
-    // Clear background
-    ctx.fillStyle = '#05070D';
+    // Clear background to Mid-Century Modern tactile cream paper ground
+    ctx.fillStyle = '#F0E9DC';
     ctx.fillRect(0, 0, w, h);
 
-    // Draw Coordinate Grid
+    // Draw Coordinate Grid in clean ink rule lines
     if (showGrid) {
-      ctx.strokeStyle = 'rgba(46, 91, 255, 0.07)';
+      ctx.strokeStyle = 'rgba(26, 26, 24, 0.12)';
       ctx.lineWidth = 1;
       const gridSize = 40;
       for (let x = 0; x < w; x += gridSize) {
@@ -288,15 +288,15 @@ function initSimulationSandbox() {
     const targetX = mouse.active ? mouse.x : w / 2 + Math.sin(Date.now() / 1500) * 200;
     const targetY = mouse.active ? mouse.y : h / 2 + Math.cos(Date.now() / 1500) * 100;
 
-    // Target Waypoint Marker
-    ctx.strokeStyle = 'rgba(0, 255, 157, 0.4)';
-    ctx.lineWidth = 1;
+    // Target Waypoint Marker - Mid-Century Brick Red & Ink Target
+    ctx.strokeStyle = '#C24D2C';
+    ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.arc(targetX, targetY, 18, 0, Math.PI * 2);
     ctx.stroke();
     ctx.beginPath();
-    ctx.arc(targetX, targetY, 4, 0, Math.PI * 2);
-    ctx.fillStyle = '#00FF9D';
+    ctx.arc(targetX, targetY, 5, 0, Math.PI * 2);
+    ctx.fillStyle = '#1A1A18';
     ctx.fill();
 
     let collisions = 0;
@@ -353,8 +353,8 @@ function initSimulationSandbox() {
           b.vx += repX;
           b.vy += repY;
         } else if (nDist < 48) {
-          // Connect swarm mesh link
-          ctx.strokeStyle = 'rgba(46, 91, 255, 0.12)';
+          // Connect swarm mesh link in subtle ink
+          ctx.strokeStyle = 'rgba(26, 26, 24, 0.16)';
           ctx.lineWidth = 0.75;
           ctx.beginPath();
           ctx.moveTo(a.x, a.y);
@@ -363,15 +363,16 @@ function initSimulationSandbox() {
         }
       }
 
-      // Draw Drone Body
+      // Draw Drone Body - Mid-Century Modern Triangles
       ctx.save();
       ctx.translate(a.x, a.y);
       ctx.rotate(a.heading);
 
       if (a.health === 0) {
-        ctx.fillStyle = '#FF3B30';
+        ctx.fillStyle = '#C24D2C'; // Brick Red for faults
       } else {
-        ctx.fillStyle = i % 5 === 0 ? '#00FF9D' : '#527BFF';
+        // Limited Mid-Century Palette: Mustard, Ink, and Muted Teal
+        ctx.fillStyle = i % 4 === 0 ? '#D9A441' : (i % 2 === 0 ? '#1A1A18' : '#3D6E70');
       }
 
       // Triangle drone fuselage
@@ -385,7 +386,7 @@ function initSimulationSandbox() {
 
       // Velocity & Collision Cones
       if (showVectors) {
-        ctx.strokeStyle = 'rgba(0, 255, 157, 0.25)';
+        ctx.strokeStyle = 'rgba(26, 26, 24, 0.35)';
         ctx.beginPath();
         ctx.moveTo(0, 0);
         ctx.lineTo(a.size * 4, 0);
@@ -397,7 +398,7 @@ function initSimulationSandbox() {
 
     if (hudCollisions) {
       hudCollisions.innerText = collisions > 0 ? `${collisions} DETECTED` : '0 DETECTED';
-      hudCollisions.style.color = collisions > 0 ? '#FF6B00' : '#00FF9D';
+      hudCollisions.style.color = collisions > 0 ? '#C24D2C' : '#3D6E70';
     }
   }
 
@@ -405,21 +406,23 @@ function initSimulationSandbox() {
     const cx = w / 2;
     const cy = h / 2;
 
-    // Draw Simulated Earth Sphere
-    const earthRadius = 90;
-    const earthGrad = ctx.createRadialGradient(cx - 30, cy - 30, 10, cx, cy, earthRadius);
-    earthGrad.addColorStop(0, '#1E43E2');
-    earthGrad.addColorStop(0.6, '#0B1745');
-    earthGrad.addColorStop(1, '#050B20');
-
-    ctx.fillStyle = earthGrad;
+    // Draw Simulated Earth Sphere - Flat Mid-Century Graphic Circle
+    const earthRadius = 88;
+    ctx.fillStyle = '#3D6E70'; // Flat Muted Ocean Teal
     ctx.beginPath();
     ctx.arc(cx, cy, earthRadius, 0, Math.PI * 2);
     ctx.fill();
 
-    // Atmosphere Glow
-    ctx.strokeStyle = 'rgba(46, 91, 255, 0.4)';
-    ctx.lineWidth = 4;
+    // Sharp Solid Ink Boundary
+    ctx.strokeStyle = '#1A1A18';
+    ctx.lineWidth = 2.5;
+    ctx.stroke();
+
+    // Equatorial Ring
+    ctx.beginPath();
+    ctx.ellipse(cx, cy, earthRadius, earthRadius * 0.3, 0, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(235, 227, 210, 0.4)';
+    ctx.lineWidth = 1.5;
     ctx.stroke();
 
     // Draw Orbits & Satellites
@@ -428,25 +431,28 @@ function initSimulationSandbox() {
       sat.x = cx + Math.cos(sat.angle) * sat.orbitR;
       sat.y = cy + Math.sin(sat.angle) * (sat.orbitR * 0.45);
 
-      // Draw Orbit Path
+      // Draw Orbit Path in subtle ink rule
       if (idx % 8 === 0) {
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+        ctx.strokeStyle = 'rgba(26, 26, 24, 0.2)';
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.ellipse(cx, cy, sat.orbitR, sat.orbitR * 0.45, 0, 0, Math.PI * 2);
         ctx.stroke();
       }
 
-      // Draw Satellite Node
-      ctx.fillStyle = '#00FF9D';
+      // Draw Satellite Node - Poster Mustard & Brick Red
+      ctx.fillStyle = idx % 2 === 0 ? '#D9A441' : '#C24D2C';
       ctx.beginPath();
-      ctx.arc(sat.x, sat.y, 3, 0, Math.PI * 2);
+      ctx.arc(sat.x, sat.y, 4, 0, Math.PI * 2);
       ctx.fill();
+      ctx.strokeStyle = '#1A1A18';
+      ctx.lineWidth = 1;
+      ctx.stroke();
 
       // Laser Cross-Links to next satellite
       if (idx < agents.length - 1 && Math.abs(sat.orbitR - agents[idx + 1].orbitR) < 10) {
-        ctx.strokeStyle = 'rgba(0, 255, 157, 0.15)';
-        ctx.lineWidth = 0.75;
+        ctx.strokeStyle = 'rgba(194, 77, 44, 0.35)';
+        ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(sat.x, sat.y);
         ctx.lineTo(agents[idx + 1].x, agents[idx + 1].y);
@@ -480,9 +486,9 @@ function initMonteCarloChart() {
   const h = chartCanvas.height;
 
   function drawEmptyChart() {
-    ctx.fillStyle = '#060910';
+    ctx.fillStyle = '#F7F4EC';
     ctx.fillRect(0, 0, w, h);
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+    ctx.strokeStyle = 'rgba(26, 26, 24, 0.15)';
     ctx.lineWidth = 1;
 
     // Baseline grid
@@ -492,9 +498,9 @@ function initMonteCarloChart() {
       ctx.lineTo(w - 20, y);
       ctx.stroke();
     }
-    ctx.fillStyle = '#8A99AD';
-    ctx.font = '10px "IBM Plex Mono"';
-    ctx.fillText('CLICK "EXECUTE 100,000 RUNS" TO COMMENCE STATISTICAL STRESS MATRIX', w / 2 - 200, h / 2);
+    ctx.fillStyle = '#54544E';
+    ctx.font = '11px "IBM Plex Mono"';
+    ctx.fillText('CLICK "EXECUTE 100,000 RUNS" TO COMMENCE STATISTICAL STRESS MATRIX', w / 2 - 220, h / 2);
   }
   drawEmptyChart();
 
@@ -528,17 +534,18 @@ function initMonteCarloChart() {
       }
 
       // Redraw Chart
-      ctx.fillStyle = '#060910';
+      ctx.fillStyle = '#F7F4EC';
       ctx.fillRect(0, 0, w, h);
 
-      // Draw Histogram Bars
+      // Draw Histogram Bars in Mid-Century Poster Accents
       const barWidth = (w - 60) / 50;
       for (let i = 0; i < 50; i++) {
         const barH = histogramData[i];
         const barX = 40 + i * barWidth;
         const barY = h - 20 - barH;
 
-        ctx.fillStyle = i > 45 || i < 5 ? 'rgba(255, 59, 48, 0.7)' : 'rgba(0, 255, 157, 0.6)';
+        // Brick red for critical tails, mustard and muted teal for safe runs
+        ctx.fillStyle = i > 44 || i < 6 ? '#C24D2C' : (i % 2 === 0 ? '#D9A441' : '#3D6E70');
         ctx.fillRect(barX, barY, barWidth - 1, barH);
       }
 
@@ -624,7 +631,7 @@ function initPipelineSwitcher() {
     hitlInfo.style.display = 'none';
     codeDisplay.innerHTML = sitlSnippet;
     envBadge.innerText = 'ENV: CLOUD SIMULATION (JAX/GPU)';
-    envBadge.style.color = '#527BFF';
+    envBadge.style.color = '#3D6E70';
     terminalFilename.innerText = 'flight_controller.rs (SITL Mode)';
   });
 
@@ -635,7 +642,7 @@ function initPipelineSwitcher() {
     sitlInfo.style.display = 'none';
     codeDisplay.innerHTML = hitlSnippet;
     envBadge.innerText = 'ENV: ALEPH HARDWARE TARGET';
-    envBadge.style.color = '#FF6B00';
+    envBadge.style.color = '#C24D2C';
     terminalFilename.innerText = 'flight_controller.rs (HITL Mode)';
   });
 }

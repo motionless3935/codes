@@ -1,181 +1,154 @@
-# Design System Inspiration of Ominis Systems
+# Design System: Mid-Century Modern (Paul Rand / Saul Bass)
+## Ominis Systems — Physical AI & Aerospace Autonomy
 
-Author: Ominis Systems Core Engineering & Product Architecture
-Specification: Physical AI & Aerospace Autonomy Design System (v1.0.0)
+**School**: Specialty / Genre (Mid-Century American Graphic Modernism & Information Architecture)  
+**Vibe**: 1950s–1960s American graphic modernism — bold geometric silhouettes, considered hand-cut paper feel, Blue Note jazz-album typographic confidence, and Paul Rand corporate identity rigor.  
+**Touchstones**: IBM logo & identity (Paul Rand), Saul Bass film titles & posters (*Vertigo*, *Anatomy of a Murder*), Alvin Lustig book jackets (New Directions), Reid Miles Blue Note jazz album sleeves, Swiss style infused with American wit.
 
 ---
 
 ## Section 1: Visual Theme & Atmosphere
 
-Ominis Systems embodies **Mission-Critical Precision & High-Velocity Physics Engineering**. The visual language is inspired by real-time avionics telemetry, satellite flight decks, defense autonomy test benches, and deep-space GPU clusters. 
+Ominis Systems reinterprets physical AI and aerospace autonomy through the lens of **Mid-Century Graphic Modernism**. Instead of clichéd dark-mode sci-fi neon and generic SaaS rounded cards, the interface commands attention with the editorial authority and graphic fearlessness of Paul Rand, Saul Bass, and Reid Miles.
 
-The atmosphere rejects consumer-SaaS softness in favor of crisp, engineered brutalism balanced with ultra-modern typography and reactive telemetry visualization. It immediately signals sovereign hardware capability, mathematical rigor, and extreme computational throughput.
+The atmosphere feels like an original 1962 MIT Lincoln Laboratory symposium program or a Blue Note record sleeve: warm unbleached paper cream, heavyweight charcoal ink, bold sunburst mustard, terra cotta brick, and muted ocean teal. Flat geometric shapes—monolithic circles, sharp triangles, half-moons, and ruled horizontal bands—lead the composition.
 
 ### Key Visual Characteristics
-- **Void Deep Space Base**: Deep pitch obsidian backgrounds (`#07090E`, `#0C0F17`) that replicate aerospace mission control screens under low light.
-- **Instrument Monospace Accents**: Precise telemetry, coordinate readouts, and hardware specs rendered in `IBM Plex Mono` with tracked uppercase labels.
-- **High-Contrast Signal Colors**: Functional aerospace signal accents — Laser Emerald (`#00FF9D`), Hyper Electric Blue (`#2E5BFF`), Rocket Plasma Orange (`#FF6B00`), and Mission Red (`#FF3B30`).
-- **Engineered Micro-Borders**: Sub-pixel and 1px hairline borders (`rgba(255, 255, 255, 0.08)`) with subtle technical corner notches, status pings, and hardware index markers.
-- **Scramble Text Typography**: Real-time terminal decoding animations on section headers that evoke high-speed cryptographic handshakes and firmware flashing.
-- **Physical Depth Layering**: Matte dark surfaces layered with glassmorphic backdrop blurs (`backdrop-filter: blur(16px)`), giving tactile depth between hardware specs, simulation monitors, and code blocks.
-- **Interactive Telemetry Surfaces**: Every technical metric is alive — dynamic canvas wave monitors, live drone swarm physics simulations, and interactive Monte Carlo iteration loops.
-- **Strict Data Density**: High-information layout density with zero frivolous fluff; every element delivers verifiable technical specifications.
+- **Warm Ground Paper Base**: Warm cream (`#EBE3D2`) and tactile bone (`#F7F4EC`) ground surfaces with a delicate paper-grain texture replacing sterile digital voids.
+- **Zero Radius Architecture**: Strict `0px` border-radius throughout all UI elements (buttons, cards, badges, inputs, dialogs). Mid-century modernism is geometric, razor-sharp, and architectonic.
+- **Flat Graphic Planes**: Zero soft box-shadows, zero blur filters, and zero color gradients. Depth is established through hard ink boundaries (`2px solid #1A1A18`) and solid geometric color blocking.
+- **Figures-as-Image**: Numerals (01, 02, 100K, 60FPS) treated as monumental graphic illustrations, commanding space alongside concise editorial serif body text.
+- **Triadic Color Discipline**: Never more than 3 colors per composition. One bold accent (Mustard `#D9A441` or Brick `#C24D2C`), supported by ground Cream (`#EBE3D2`) and Ink (`#1A1A18`).
+- **Typographic Dialectic**: Bold geometric grotesque display typography (`Space Grotesk` / `Futura` ethos) at large poster scales paired with refined humanist serif prose (`EB Garamond`) at 16–17px.
+- **Saul Bass Motion Cadence**: Minimal, intentional motion. Shapes snap into place on a single beat like a Bass title sequence; no floaty elastic springs or frivolous bouncy physics.
+- **Graphic Identity Homage**: Striped brand motifs and geometric cutouts honoring Paul Rand's 8-bar IBM identity and Alvin Lustig's abstract geometry.
 
 ---
 
 ## Section 2: Color Palette & Roles
 
-Every color in the Ominis Systems design system has a strict functional mandate:
+Every color follows strict mid-century poster printing constraints. Colors represent distinct ink plates applied to tactile ground paper.
 
-### Primary Surfaces & Backdrops
-- **Void Obsidian** (`#07090E`): Main atmospheric foundation; absorbs glare and heightens signal luminescence.
-- **Deep Slate Layer 1** (`#0C101A`): Card surface and bento container backgrounds.
-- **Deep Slate Layer 2** (`#131926`): Hover elevation and elevated module enclosures.
-- **Subtle Surface Stroke** (`rgba(255, 255, 255, 0.08)`): Grid separators and component borders.
-- **Active Surface Stroke** (`rgba(46, 91, 255, 0.35)`): Highlighted container borders on interactive focus.
+### Primary Surfaces & Ground
+- **Warm Cream Ground** (`#EBE3D2` / `var(--ground-cream)`): Primary canvas ground; warm, unbleached letterpress paper.
+- **Bone White Ground** (`#F7F4EC` / `var(--ground-light)`): Secondary elevated surface; crisp linen card stock.
+- **Card Kraft Tint** (`#E3DAC5` / `var(--ground-card)`): Container and module backgrounds with warm natural pulp tone.
+- **Charcoal Ink** (`#1A1A18` / `var(--ink)`): Primary structural color, borders, headlines, and typographic ink plate.
+- **Muted Ink** (`#4A4A45` / `var(--ink-muted)`): Secondary descriptive text, captions, and fine technical annotations.
 
-### Interactive & Accent Signals
-- **Hyper Blue** (`#2E5BFF`): Primary interactive links, active tabs, software-in-the-loop (SITL) indicators, and core buttons.
-- **Hyper Blue Glow** (`rgba(46, 91, 255, 0.25)`): Radial ambiance behind key hardware highlights.
-- **Laser Emerald** (`#00FF9D`): Simulation runtime health, successful validation states, live telemetry status, and drone autonomy indicators.
-- **Plasma Orange** (`#FF6B00`): Hardware-in-the-loop (HITL), Aleph flight computer hardware triggers, and thermal compute indicators.
-- **Mission Red / Crimson** (`#FF3B30`): Aerospace alert bottlenecks, error boundaries, and defense mission profiles.
+### Mid-Century Accent Ink Plates
+- **Poster Mustard** (`#D9A441` / `var(--mustard)`): Primary hero accent, key metric blocks, active state tabs, and primary action buttons.
+- **Terra Cotta Brick** (`#C24D2C` / `var(--brick)`): High-priority warnings, hardware bottlenecks, critical flight indicators, and fault injection tags.
+- **Muted Ocean Teal** (`#3D6E70` / `var(--teal)`): Satellite orbit visualizations, verified test badges, secondary action pills, and code block headers.
+- **Solid Ink Border** (`#1A1A18` / `var(--border-ink)`): Crisp 1.5px and 2px solid lines bounding every container and module.
 
-### Text Hierarchy & Contrast
-- **Signal White** (`#F7FAFC`): Display headings, hero titles, primary metrics (`100%` contrast).
-- **Bone Cream** (`#E2E8F0`): Section sub-headings, key value descriptions, and primary body copy.
-- **Muted Telemetry Gray** (`#8A99AD`): Secondary descriptors, table headers, footnotes, and parameter labels.
-- **Ghost Obsidian** (`#4A5568`): Inactive states, disabled controls, and subtle line rules.
-
-### Shadows & Elevation
-- **Elevation Low**: `0 2px 8px rgba(0, 0, 0, 0.45)`
-- **Elevation Medium**: `0 8px 30px rgba(0, 0, 0, 0.65), 0 0 1px rgba(255, 255, 255, 0.1)`
-- **Elevation Glow (Blue)**: `0 0 35px rgba(46, 91, 255, 0.22)`
-- **Elevation Glow (Emerald)**: `0 0 35px rgba(0, 255, 157, 0.18)`
+### Palette Combinations (3 Colors Max Per Module)
+1. **The Classic Rand**: Warm Cream (`#EBE3D2`) + Charcoal Ink (`#1A1A18`) + Poster Mustard (`#D9A441`).
+2. **The Bass Title**: Warm Cream (`#EBE3D2`) + Charcoal Ink (`#1A1A18`) + Terra Cotta Brick (`#C24D2C`).
+3. **The Blue Note Modern**: Warm Cream (`#EBE3D2`) + Muted Teal (`#3D6E70`) + Charcoal Ink (`#1A1A18`).
 
 ---
 
 ## Section 3: Typography Rules
 
-### Primary Font Stacks
-- **Display & Headings**: `'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`
-- **Body & Paragraphs**: `'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Inter', sans-serif`
-- **Telemetry & Technical Code**: `'IBM Plex Mono', 'JetBrains Mono', 'Fira Code', monospace`
+### Font Families
+- **Display & Section Headers**: `'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif` — Geometric grotesque at large scale, uppercase and tight letterforms reminiscent of Futura and ITC Avant Garde.
+- **Body & Prose**: `'EB Garamond', Garamond, 'Georgia', serif` — Humanist serif at 16–18px, providing warm editorial authority and natural cadence.
+- **Telemetry & Technical Specs**: `'IBM Plex Mono', 'Courier New', monospace` — Precision monospace honoring Paul Rand's IBM heritage.
 
 ### Typography Hierarchy Table
 
-| Role | Font Family | Size | Weight | Line Height | Letter Spacing | Functional Application |
-|---|---|---|---|---|---|---|
-| **Mega Display Hero** | Space Grotesk | 64px (4rem) | 700 Bold | 1.08 | -0.035em | Main viewport value proposition & scramble titles |
-| **Section Heading (H1/H2)** | Space Grotesk | 40px (2.5rem) | 600 SemiBold | 1.15 | -0.025em | Major architectural module titles & problem statements |
-| **Bento Card Title (H3)** | Space Grotesk | 22px (1.375rem) | 600 SemiBold | 1.25 | -0.015em | Hardware component names & feature block headers |
-| **Body Large** | IBM Plex Sans | 18px (1.125rem) | 400 Regular | 1.60 | -0.01em | Lead paragraphs & hero summaries |
-| **Body Standard** | IBM Plex Sans | 15px (0.9375rem) | 400 Regular | 1.65 | normal | General descriptions, FAQ explanations, card narratives |
-| **Button Text** | Space Grotesk | 14px (0.875rem) | 600 SemiBold | 1.0 | 0.04em | Interactive action buttons (All-Caps or Title-Case) |
-| **Telemetry Tag / Label** | IBM Plex Mono | 12px (0.75rem) | 600 SemiBold | 1.2 | 0.08em | Category eyebrow badges, pinouts, registers, timestamps |
-| **Micro Specs** | IBM Plex Mono | 11px (0.6875rem) | 400 Regular | 1.4 | 0.02em | Voltage specs, sampling rates, commit hashes, latency |
+| Role | Font Family | Size | Weight | Line Height | Letter Spacing | Case | Functional Application |
+|---|---|---|---|---|---|---|---|
+| **Monumental Display** | Space Grotesk | 54–68px | 700 Bold | 1.05 | -0.03em | Title / Sentence | Main hero headline with cut-paper confidence |
+| **Section Title** | Space Grotesk | 36–42px | 700 Bold | 1.15 | -0.02em | Sentence / Title | Module headers, architectural problem statements |
+| **Poster Subhead** | Space Grotesk | 20–24px | 600 SemiBold | 1.25 | -0.01em | Normal | Card titles, feature names, telemetry subtitles |
+| **Figures-as-Image** | Space Grotesk | 38–52px | 700 Bold | 1.00 | -0.04em | Normal | Hero numbers (01, 100K, 60 FPS, 100 TOPS) |
+| **Lead Paragraph** | EB Garamond | 19–21px | 400 Regular | 1.55 | 0 | Normal | Executive lead summaries and thesis statements |
+| **Body Standard** | EB Garamond | 16–17px | 400 Regular | 1.65 | 0.01em | Normal | Detailed explanations, documentation, FAQ answers |
+| **Poster Button** | Space Grotesk | 13–14px | 700 Bold | 1.00 | 0.06em | UPPERCASE | Interactive action buttons & triggers |
+| **Technical Stamp / Tag** | IBM Plex Mono | 11–12px | 600 SemiBold | 1.20 | 0.08em | UPPERCASE | Category eyebrows, status stamps, register labels |
 
 ---
 
 ## Section 4: Component Stylings
 
 ### 1. Buttons & Triggers
-- **Primary CTA (Hyper Blue)**:
-  - Background: `#2E5BFF` with hover gradient `linear-gradient(135deg, #3B66FF, #1E43E2)`
-  - Text: `#FFFFFF`, 14px, Space Grotesk, SemiBold, letter-spacing `0.04em`
-  - Border: 1px solid rgba(255, 255, 255, 0.15); Box-shadow: `0 4px 20px rgba(46, 91, 255, 0.35)`
-  - Hover: translateY(-2px), glow intensification `0 6px 28px rgba(46, 91, 255, 0.55)`
-- **Secondary Ghost (Hardware White / Steel)**:
-  - Background: `rgba(255, 255, 255, 0.04)`; Border: `1px solid rgba(255, 255, 255, 0.16)`
-  - Text: `#E2E8F0`; Hover: background `rgba(255, 255, 255, 0.08)`, border `rgba(255, 255, 255, 0.32)`
-- **Accent Button (Laser Emerald / Plasma Orange)**:
-  - Used for live test actions ("RUN MONTE CARLO", "INSPECT HARDWARE", "SITL VALIDATION")
-  - Bordered with accent color glow and interactive hover pulse.
+- **Primary Poster Action (Mustard / Ink)**:
+  - Background: `#D9A441`; Text: `#1A1A18`; Border: `2px solid #1A1A18`.
+  - Border-radius: `0px` strictly.
+  - Hover: Background `#1A1A18`, Text `#EBE3D2`, slight transform `translate(-2px, -2px)` with hard solid offset `2px 2px 0 #1A1A18`.
+- **Secondary Action (Cream / Brick)**:
+  - Background: `#EBE3D2`; Text: `#1A1A18`; Border: `2px solid #1A1A18`.
+  - Hover: Background `#C24D2C`, Text `#F7F4EC`.
+- **Ghost / Outline Action**:
+  - Background: `transparent`; Text: `#1A1A18`; Border: `2px solid #1A1A18`.
+  - Hover: Background `#1A1A18`, Text `#EBE3D2`.
 
-### 2. Bento Hardware & Simulation Cards
-- Background: `linear-gradient(180deg, rgba(16, 22, 34, 0.85) 0%, rgba(10, 14, 22, 0.95) 100%)`
-- Border: `1px solid rgba(255, 255, 255, 0.08)`; Border-radius: `12px`
-- Backdrop blur: `16px`
-- Padding: `28px` desktop, `20px` mobile
-- Header: Eyebrow pill tag with indicator dot (`4px` pulsing circle)
-- Interactive hover: Border switches to subtle accent hue, card content elevates by `3px`.
+### 2. Bento & Module Cards
+- Background: `#F7F4EC` (Bone White) or `#E5DCBA` (Kraft Tint).
+- Border: `2px solid #1A1A18` (solid ink boundary).
+- Border-radius: `0px` (sharp geometric rectangle).
+- Padding: `28px` desktop, `20px` mobile.
+- Header: Bold geometric index number (`01`, `02`, `03`) set as a solid ink or mustard badge.
+- Shadows: Strictly `none` (or hard solid offset `4px 4px 0 #1A1A18`).
 
-### 3. Telemetry Tags & Status Pills (`ineedmytag`)
-- Display: Inline flex, alignment center, gap `6px`
-- Background: `rgba(255, 255, 255, 0.04)`
-- Border: `1px solid rgba(255, 255, 255, 0.1)`
-- Radius: `4px` (industrial chamfered or tight radius)
-- Font: `11px IBM Plex Mono`, uppercase
+### 3. Forms & Inputs
+- Inputs, selects, and textareas: Ground `#FFFFFF` or `#F7F4EC`, Border `2px solid #1A1A18`, Radius `0px`.
+- Focus state: Border `2px solid #D9A441` with solid hard offset `2px 2px 0 #1A1A18`.
+- Checkboxes: Square `0px` radius, thick ink checkmark.
 
-### 4. Interactive Simulation & Hardware Inspectors
-- Dual tab switchers with sliding highlight pill.
-- Real-time HTML5 60fps canvas monitors with grid overlays, altitude indicators, collision cones, and trajectory trails.
-- Exploded-view hardware interactive board switcher (Carrier Board vs Expansion Board) with pinout inspector.
+### 4. Navigation & Top Ticker
+- Top Ticker: Warm Kraft ground `#E5DCBA`, bottom border `2px solid #1A1A18`, typewriter monospace ink text.
+- Header: Warm Cream ground `#EBE3D2`, bottom border `2px solid #1A1A18`, bold graphic logo mark with Paul Rand geometric bars.
+
+### 5. Interactive Sim & Canvas HUD
+- Canvas Ground: Warm paper tone `#F0E9DC` with ink coordinate grid.
+- Vector Swarm: Crisp geometric triangles in solid ink `#1A1A18`, mustard `#D9A441`, and brick `#C24D2C`.
+- HUD Panels: Flat bone card containers framed in 2px ink borders.
 
 ---
 
 ## Section 5: Layout Principles
 
-- **Base Unit & Scale**: 4px atomic unit (Scale: `4, 8, 12, 16, 24, 32, 48, 64, 96, 128px`).
-- **Container Max-Width**: `1280px` standard container, `1440px` wide telemetry dashboard.
-- **Grid Layout**: 12-column responsive fluid grid with `24px` gutter (`16px` on mobile).
-- **Whitespace Philosophy**: Crisp, intentional rhythm. Clean breathing room around massive display typography, paired with dense, organized telemetry clusters in bento boxes.
-- **Border Radius Scale**:
-  - `4px`: Badges, tags, code snippets, buttons, input fields
-  - `8px`: Tab bars, nested hardware sub-panels, modal dialogs
-  - `12px`: Bento cards, simulation viewports, main hero containers
-  - `16px`: Top-level section enclosures
+- **Structured Modernist Grid**: Based on multiples of 8: `4px / 8px / 16px / 24px / 32px / 48px / 64px`.
+- **Asymmetric Poster Balance**: Clean tension between large monolithic solid shapes and disciplined typographic columns.
+- **Rhythmic Horizontal Rules**: Clean `2px solid #1A1A18` rules dividing thematic movements, evoking mid-century architectural publications.
+- **Container Max-Width**: `1200px` centered with generous typographic margins.
 
 ---
 
-## Section 6: Depth & Elevation
+## Section 6: Geometric & Abstract Shape System
 
-- **Level 0 (Atmosphere Void)**: `#07090E` with subtle ambient radial gradients in Hyper Blue (`rgba(46, 91, 255, 0.08)`) and Emerald (`rgba(0, 255, 157, 0.04)`).
-- **Level 1 (Structural Containers)**: `#0D111B` with 1px border `rgba(255, 255, 255, 0.07)`.
-- **Level 2 (Interactive Cards & Viewports)**: `#121724` with glass backdrop-filter.
-- **Level 3 (Modals, Tooltips & Overlays)**: `#182030` with `0 20px 50px rgba(0, 0, 0, 0.85)` and border `rgba(255, 255, 255, 0.15)`.
-- **Glassmorphism**: Always accompanied by sharp 1px borders to maintain military/aerospace hardware crispness without looking muddy.
-
----
-
-## Section 7: Do's and Don'ts
-
-### Do:
-- **Do** showcase concrete mathematical & hardware values: TOPS, JAX/XLA, STM32H757, NVIDIA Orin, 100,000 Monte Carlo tests, JST-GH pinouts.
-- **Do** use `IBM Plex Mono` for all numbers, metrics, timestamps, and hardware registers.
-- **Do** provide live interactive demonstrations (e.g. running Monte Carlo loops, interactive drone/satellite simulations, board pinout explorer).
-- **Do** preserve the pitch deck's core message: *Eliminating Custom Infrastructure from Physical AI*.
-- **Do** implement responsive hover states and silky micro-interactions that feel engineered like avionics hardware.
-
-### Don't:
-- **Don't** use pastel, playful, or bubbly consumer-SaaS colors (no pinks, purples, or cartoon gradients).
-- **Don't** use generic stock illustrations or vague hand-waving marketing phrases.
-- **Don't** leave interactive elements dead — buttons, sliders, tabs, and simulation controls must respond immediately.
-- **Don't** compromise on contrast: always ensure technical text exceeds WCAG AA standards against dark surfaces.
-- **Don't** create layouts that break or horizontally scroll on tablet and mobile viewports.
+- **Monolithic Circle**: Large solid Mustard `#D9A441` or Brick `#C24D2C` circle anchoring the hero and section intros.
+- **Graphic Striped Bars**: Homage to Paul Rand's 8-bar IBM identity used as section dividers and brand marks.
+- **Half-Moon & Wedge Cuts**: Geometric silhouettes providing visual anchor points for complex telemetry data.
+- **Hand-Cut Paper Feel**: Subtle micro-irregularities and paper grain texture overlay creating an authentic letterpress tactile feel.
 
 ---
 
-## Section 8: Responsive Behavior
+## Section 7: Motion & Micro-interactions
 
-- **Breakpoints**:
-  - `Desktop Wide`: `> 1200px` (Full 12-column bento grid, 3-column feature spreads, side-by-side simulation dashboards)
-  - `Laptop / Desktop`: `992px - 1199px` (Adjusted gutter, 2-column bento layouts, responsive telemetry)
-  - `Tablet`: `768px - 991px` (Single column hero with stacked canvas visualizer, collapsible nav menu, 2-column feature cards)
-  - `Mobile`: `< 768px` (Full-width stacked cards, horizontal scrollable tabs with touch snapping, tap targets `>= 44px`, scaled display fonts)
+- **Saul Bass Title Beat**: Transitions are brief, punchy, and deliberate (`0.15s` to `0.2s` with `cubic-bezier(0.25, 1, 0.5, 1)`).
+- **Zero Floaty Springs**: Avoid bouncy rubber-band animations. Elements snap into position like cut-paper cards hitting a light table.
+- **Hover Transitions**: Color inversions (e.g. Mustard to Ink, Cream to Brick) on a crisp 120ms tick.
 
 ---
 
-## Section 9: Agent Prompt Guide
+## Section 8: Imagery & Illustration
 
-### Quick Color Reference
-- Void Background: `#07090E`
-- Card Surface: `#0D111B` / `#131826`
-- Hyper Blue: `#2E5BFF`
-- Laser Emerald: `#00FF9D`
-- Plasma Orange: `#FF6B00`
-- Signal White: `#F7FAFC`
-- Telemetry Gray: `#8A99AD`
+- **Vector-First Modernism**: All visual diagrams, hardware schematics, and simulation models are rendered as crisp flat vector graphics.
+- **Paper Grain Texture**: Fine SVG noise texture (`feTurbulence`) layered over the cream background at low opacity (`0.035`), imparting authentic archival print texture.
+- **Zero Generic Photography**: Illustration, geometric silhouette, and schematic diagrams lead every visual touchpoint.
 
-### Component Generation Prompt Template
-> "Generate an aerospace-grade bento card for Ominis Systems. Background `#0D111B` with 1px border `rgba(255, 255, 255, 0.08)` and border-radius `12px`. Include a monospace eyebrow tag in `11px IBM Plex Mono` with an animated pulsing indicator dot (`#00FF9D`). Heading in `22px Space Grotesk SemiBold` in `#F7FAFC`. Body text in `15px IBM Plex Sans` in `#E2E8F0`. Include an interactive hardware spec pill group with JST-GH telemetry connectors."
+---
+
+## Section 9: Do's and Don'ts / Anti-Patterns
+
+### Strictly Prohibited (Avoid)
+- **NO Gradients**: Absolutely zero linear or radial color gradients. Mid-century modern is flat color.
+- **NO Rounded Corners**: Never use `border-radius: 4px`, `8px`, or `16px`. Radius is `0px` everywhere.
+- **NO Soft Shadows**: Never use `box-shadow: 0 10px 30px rgba(0,0,0,0.2)`. Shadows are strictly `none` or hard solid offsets (`3px 3px 0 #1A1A18`).
+- **NO Neon Glows**: No `text-shadow: 0 0 15px #00FF9D` or glowing laser borders.
+- **NO Dark Void Backgrounds**: Replace obsidian/black backgrounds with tactile cream `#EBE3D2` and bone `#F7F4EC`.
+- **NO More Than 3 Colors Per Piece**: Maintain strict palette discipline.
