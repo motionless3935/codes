@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ominis Systems | Eliminating Custom Infrastructure from Physical AI</title>
+  <meta name="description" content="Ominis Systems replaces fragmented aerospace software with a GPU-accelerated Rust/JAX simulation platform and modular Aleph flight computers. Bridge cloud simulation to sovereign physical flight in one codebase.">
+  <meta name="keywords" content="Ominis Systems, Physical AI, aerospace simulation, GPU simulation, Aleph flight computer, Rust JAX, swarm simulation, HITL, SITL, satellite ADCS">
+  <meta property="og:title" content="Ominis Systems | Eliminating Custom Infrastructure from Physical AI">
+  <meta property="og:description" content="GPU-accelerated simulation platform and modular Aleph flight computers. One codebase mapping cloud simulation to physical hardware.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#07090E">
+
+  <!-- Google Fonts: Space Grotesk, IBM Plex Sans, IBM Plex Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="body-theme">
+
+  <!-- Top Aerospace Telemetry Ticker -->
+  <aside class="top-telemetry-bar" aria-label="System Telemetry Status">
+    <div class="telemetry-bar-content">
+      <span class="status-indicator live-pulse"></span>
+      <span class="telemetry-text"><strong class="highlight-emerald">OMINIS CLUSTER V2.4</strong> // GPU SIMULATION ENGINE ONLINE // 100K MONTE CARLO INSTANCES ACTIVE</span>
+      <span class="telemetry-sep">|</span>
+      <span class="telemetry-item"><span class="label">ENGINE:</span> RUST / JAX-XLA</span>
+      <span class="telemetry-item"><span class="label">HARDWARE:</span> ALEPH JETSON ORIN + STM32H7</span>
+      <span class="telemetry-item"><span class="label">PIPELINE:</span> SITL &harr; HITL UNIFIED</span>
+      <div class="telemetry-actions">
+        <button id="toggle-audio-btn" class="telemetry-pill-btn" title="Toggle audio feedback">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+          <span id="audio-status-label">AUDIO: OFF</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Navigation Bar -->
+  <header class="site-header" id="site-header">
+    <div class="header-container">
+      <a href="#hero" class="brand-logo" id="brand-logo-link" aria-label="Ominis Systems Home">
+        <div class="logo-symbol">
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="28" height="28" rx="6" stroke="#2E5BFF" stroke-width="2" fill="rgba(46,91,255,0.08)"/>
+            <circle cx="16" cy="16" r="6" fill="#00FF9D"/>
+            <path d="M6 16H10M22 16H26M16 6V10M16 22V26" stroke="#2E5BFF" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="16" cy="16" r="10" stroke="rgba(255,255,255,0.25)" stroke-dasharray="2 3"/>
+          </svg>
+        </div>
+        <div class="brand-name-group">
+          <span class="brand-name">OMINIS</span>
+          <span class="brand-sub">SYSTEMS</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="nav-links" id="primary-nav" aria-label="Main Navigation">
+        <a href="#bottlenecks" class="nav-item">Bottlenecks</a>
+        <a href="#simulation" class="nav-item">GPU Simulation</a>
+        <a href="#codebase-pipeline" class="nav-item">SITL &harr; HITL</a>
+        <a href="#aleph-hardware" class="nav-item">Aleph Hardware</a>
+        <a href="#monetization" class="nav-item">Value Capture</a>
+        <a href="#next-steps" class="nav-item highlight-link">Next Steps</a>
+      </nav>
+
+      <!-- Action Buttons -->
+      <div class="header-actions">
+        <a href="#sim-sandbox" class="btn btn-ghost-sm" id="nav-sandbox-btn">
+          <span class="emerald-dot"></span> Live Sim
+        </a>
+        <a href="#next-steps" class="btn btn-primary-sm" id="nav-cta-btn">
+          Approve Architecture &rarr;
+        </a>
+        <button class="mobile-menu-toggle" id="mobile-menu-btn" aria-label="Toggle navigation menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-drawer" id="mobile-drawer">
+    <div class="mobile-drawer-header">
+      <span class="brand-name">OMINIS SYSTEMS</span>
+      <button class="mobile-close-btn" id="mobile-close-btn" aria-label="Close menu">&times;</button>
+    </div>
+    <nav class="mobile-nav-links">
+      <a href="#bottlenecks" class="mobile-nav-item">Bottlenecks</a>
+      <a href="#simulation" class="mobile-nav-item">GPU Simulation</a>
+      <a href="#codebase-pipeline" class="mobile-nav-item">SITL &harr; HITL Pipeline</a>
+      <a href="#aleph-hardware" class="mobile-nav-item">Aleph Flight Computer</a>
+      <a href="#monetization" class="mobile-nav-item">Business Model</a>
+      <a href="#next-steps" class="mobile-nav-item">Architecture Approval</a>
+      <a href="#faq" class="mobile-nav-item">Technical FAQ</a>
+    </nav>
+    <div class="mobile-drawer-footer">
+      <a href="#next-steps" class="btn btn-primary w-full">Request Hardware Prototype</a>
+    </div>
+  </div>
+
+  <main id="main-content">
+    
+    <!-- Hero Section -->
+    <section class="section-hero" id="hero">
+      <div class="hero-bg-grid"></div>
+      <div class="hero-radial-glow"></div>
+      
+      <div class="container hero-container">
+        <div class="hero-eyebrow-wrapper">
+          <div class="aerospace-badge">
+            <span class="badge-dot"></span>
+            <span class="badge-text">PHYSICAL AI &bull; SOVEREIGN AUTONOMY &bull; DEFENSE &amp; SPACE</span>
+          </div>
+        </div>
+
+        <h1 class="hero-heading" id="hero-scramble-heading" data-text="Eliminating Custom Infrastructure from Physical AI.">
+          Eliminating Custom Infrastructure from Physical AI.
+        </h1>
+
+        <p class="hero-lead">
+          Stop squandering years building redundant physics engines. Ominis Systems unifies massive <strong>GPU-accelerated simulation</strong> with open modular <strong>Aleph flight computers</strong>—empowering engineers to run 100,000s of Monte Carlo tests in the cloud and deploy directly to flight hardware in <em>one continuous codebase</em>.
+        </p>
+
+        <!-- Hero CTAs -->
+        <div class="hero-cta-group">
+          <a href="#sim-sandbox" class="btn btn-primary btn-large" id="hero-sim-cta">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Launch Interactive Sim
+          </a>
+          <a href="#aleph-hardware" class="btn btn-ghost btn-large" id="hero-hardware-cta">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+            Inspect Aleph Computer
+          </a>
+          <a href="#next-steps" class="btn btn-outline btn-large" id="hero-approve-cta">
+            Approve Architecture &rarr;
+          </a>
+        </div>
+
+        <!-- Hero Live Telemetry Metrics -->
+        <div class="hero-metrics-grid">
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-label">PARALLEL SCALE</span>
+              <span class="metric-tag tag-emerald">GPU-XLA</span>
+            </div>
+            <div class="metric-value" id="stat-monte-carlo">100,000+</div>
+            <div class="metric-caption">Simultaneous Monte Carlo tests per run</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-label">EDGE AI COMPUTE</span>
+              <span class="metric-tag tag-blue">JETSON ORIN</span>
+            </div>
+            <div class="metric-value">100 TOPS</div>
+            <div class="metric-caption">Onboard neural inference capability</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-label">CODEBASE GAP</span>
+              <span class="metric-tag tag-orange">SITL &harr; HITL</span>
+            </div>
+            <div class="metric-value">0.0 ms</div>
+            <div class="metric-caption">Zero friction hardware-to-cloud mapping</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-label">FLIGHT READINESS</span>
+              <span class="metric-tag tag-emerald">VELOCITY</span>
+            </div>
+            <div class="metric-value">10&times; Fast</div>
+            <div class="metric-caption">Compress 18 months of R&amp;D into weeks</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 2: Aerospace Software Bottlenecks Section -->
+    <section class="section-padded" id="bottlenecks">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag tag-red">
+            <span class="tag-pulse-red"></span>
+            INDUSTRY REALITY &bull; THE PRE-AI BOTTLENECKS
+          </div>
+          <h2 class="section-title">Aerospace Software Bottlenecks Before the Core AI.</h2>
+          <p class="section-desc">
+            Autonomous aerospace teams spend up to 70% of their engineering capital solving low-level plumbing before their autonomy algorithms ever take flight. Legacy tools were built for 1990s desktop CPUs, not sovereign AI swarms.
+          </p>
+        </div>
+
+        <div class="bento-grid bento-3col">
+          <!-- Bottleneck 1 -->
+          <article class="bento-card card-alert" id="card-bottleneck-1">
+            <div class="card-status-bar">
+              <span class="status-code">ERR_DEV_CYCLE_LAG</span>
+              <span class="status-badge red">CRITICAL DRAG</span>
+            </div>
+            <div class="card-icon-box red">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            </div>
+            <h3 class="card-title">Redundant Development</h3>
+            <p class="card-text">
+              <strong>Building physics engines delays core logic.</strong> Every defense contractor and drone startup reinvents numerical integrators, quaternion math, aerodynamics lookup tables, and sensor noise models from scratch instead of training mission-critical autonomy.
+            </p>
+            <div class="bottleneck-impact">
+              <div class="impact-item">
+                <span class="impact-num">18-24 Mo</span>
+                <span class="impact-label">Average custom engine delay</span>
+              </div>
+              <div class="impact-item">
+                <span class="impact-num">$2.4M+</span>
+                <span class="impact-label">Capital sunk in redundant physics</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Bottleneck 2 -->
+          <article class="bento-card card-alert" id="card-bottleneck-2">
+            <div class="card-status-bar">
+              <span class="status-code">ERR_SCALE_CEILING</span>
+              <span class="status-badge red">SWARM BOTTLENECK</span>
+            </div>
+            <div class="card-icon-box red">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <h3 class="card-title">Simulation Ceilings</h3>
+            <p class="card-text">
+              <strong>Legacy tools cannot handle swarm scale.</strong> CPU-bound physics tools (MATLAB/Simulink, Gazebo, ROS 1) choke when scaling past single vehicles. Simulating swarms of 500+ drones or low-Earth orbit satellite constellations in real-time is mathematically impossible on legacy architectures.
+            </p>
+            <div class="bottleneck-impact">
+              <div class="impact-item">
+                <span class="impact-num">&lt; 100</span>
+                <span class="impact-label">Legacy simultaneous agents</span>
+              </div>
+              <div class="impact-item">
+                <span class="impact-num">30&times;</span>
+                <span class="impact-label">Slower than real-time physics</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Bottleneck 3 -->
+          <article class="bento-card card-alert" id="card-bottleneck-3">
+            <div class="card-status-bar">
+              <span class="status-code">ERR_HARDWARE_DISCONNECT</span>
+              <span class="status-badge red">DEPLOYMENT GAP</span>
+            </div>
+            <div class="card-icon-box red">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <h3 class="card-title">Deployment Gaps</h3>
+            <p class="card-text">
+              <strong>Software fails during hardware transitions.</strong> Control loops perfected in Python simulations fail catastrophically when ported to embedded C/C++ microcontrollers due to driver divergences, timing jitter, and incompatible sensor bus abstractions.
+            </p>
+            <div class="bottleneck-impact">
+              <div class="impact-item">
+                <span class="impact-num">65%</span>
+                <span class="impact-label">First-flight hardware abort rate</span>
+              </div>
+              <div class="impact-item">
+                <span class="impact-num">2&times;</span>
+                <span class="impact-label">Separate codebases maintained</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 3: GPU-Accelerated Simulation Section + Interactive Sandbox -->
+    <section class="section-padded bg-subtle" id="simulation">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag tag-emerald">
+            <span class="tag-pulse-emerald"></span>
+            SOLUTION 01 // GPU-ACCELERATED PHYSICS
+          </div>
+          <h2 class="section-title">GPU-Accelerated Simulation Replaces Manual Testing.</h2>
+          <p class="section-desc">
+            Harness tensor-accelerated computation with <strong>Rust and JAX/XLA</strong>. Simulate vast swarms, run 100,000s of simultaneous Monte Carlo stress runs, and define custom aerodynamics right from your workstation or cloud GPU cluster.
+          </p>
+        </div>
+
+        <div class="bento-grid bento-3col">
+          <!-- Pillar 1 -->
+          <div class="bento-card">
+            <div class="card-icon-box emerald">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+            </div>
+            <div class="tag-label emerald">GPU ARCHITECTURE</div>
+            <h3 class="card-title">Built on Rust &amp; Python Physics</h3>
+            <p class="card-text">
+              Powered by <strong>JAX / XLA compilation</strong> and an ultra-fast Rust Entity Component System (ECS). Automatic differentiation allows direct gradient-based trajectory optimization, neural flight control, and seamless GPU tensor dispatching.
+            </p>
+            <div class="specs-pill-group">
+              <span class="spec-pill">Rust ECS Engine</span>
+              <span class="spec-pill">JAX / XLA JIT</span>
+              <span class="spec-pill">Auto-Diff</span>
+              <span class="spec-pill">Zero Memory Copies</span>
+            </div>
+          </div>
+
+          <!-- Pillar 2 -->
+          <div class="bento-card">
+            <div class="card-icon-box blue">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="8" height="8" rx="2"/><rect x="14" y="2" width="8" height="8" rx="2"/><rect x="8" y="14" width="8" height="8" rx="2"/><line x1="6" y1="10" x2="12" y2="14"/><line x1="18" y1="10" x2="12" y2="14"/></svg>
+            </div>
+            <div class="tag-label blue">MASSIVE SCALE</div>
+            <h3 class="card-title">Simulates Swarms of Drones &amp; Satellites</h3>
+            <p class="card-text">
+              Scale without bounds. Coordinate, simulate, and refine complex distributed swarm logic across tens of thousands of autonomous agents with deterministic 6-DOF physics, collision mesh sensors, and RF mesh communications.
+            </p>
+            <div class="specs-pill-group">
+              <span class="spec-pill">10,000+ Active Agents</span>
+              <span class="spec-pill">LEO Constellations</span>
+              <span class="spec-pill">Full 6-DOF Dynamics</span>
+              <span class="spec-pill">RF Telemetry Meshes</span>
+            </div>
+          </div>
+
+          <!-- Pillar 3 -->
+          <div class="bento-card">
+            <div class="card-icon-box orange">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+            </div>
+            <div class="tag-label orange">RAPID ITERATION</div>
+            <h3 class="card-title">100,000s of Monte Carlo Tests</h3>
+            <p class="card-text">
+              Eliminate expensive test range failures. Sweep wind turbulence parameters, actuator degradations, GPS spoofing, and sensor noise across 100,000 randomized Monte Carlo simulations in seconds on standard GPU hardware.
+            </p>
+            <div class="specs-pill-group">
+              <span class="spec-pill">100k Simultaneous Runs</span>
+              <span class="spec-pill">Extreme Corner Cases</span>
+              <span class="spec-pill">Statistical Bounds</span>
+              <span class="spec-pill">Sub-Second Execution</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Simulation Sandbox & Telemetry Viewport -->
+        <div class="sim-sandbox-container" id="sim-sandbox">
+          <div class="sandbox-toolbar">
+            <div class="toolbar-left">
+              <div class="sandbox-mode-selector">
+                <button class="mode-tab active" data-mode="drones" id="tab-drone-sim">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L4 6v12l8 4 8-4V6l-8-4z"/></svg>
+                  Tactical Drone Swarm
+                </button>
+                <button class="mode-tab" data-mode="satellites" id="tab-sat-sim">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="8"/><path d="M2 12h20M12 2v20"/></svg>
+                  Orbital LEO Constellation
+                </button>
+                <button class="mode-tab" data-mode="montecarlo" id="tab-mc-sim">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                  Monte Carlo Engine
+                </button>
+              </div>
+            </div>
+
+            <div class="toolbar-right">
+              <div class="sandbox-stat">
+                <span class="stat-name">SIM CLOCK:</span>
+                <span class="stat-value" id="sim-clock-display">00:00:00.000</span>
+              </div>
+              <div class="sandbox-stat">
+                <span class="stat-name">FPS:</span>
+                <span class="stat-value highlight-emerald" id="sim-fps-display">60.0</span>
+              </div>
+              <button class="btn btn-emerald-xs" id="sim-reset-btn">Reset Sim</button>
+            </div>
+          </div>
+
+          <!-- Main Interactive Canvas Viewport -->
+          <div class="sandbox-viewport-wrapper">
+            <canvas id="sim-canvas" width="1120" height="520" aria-label="Interactive physical simulation viewport"></canvas>
+
+            <!-- HUD Overlays -->
+            <div class="canvas-hud top-left-hud">
+              <div class="hud-box">
+                <div class="hud-title">ACTIVE SWARM TELEMETRY</div>
+                <div class="hud-metric-row">
+                  <span>AGENTS:</span>
+                  <strong id="hud-agent-count">128 VEHICLES</strong>
+                </div>
+                <div class="hud-metric-row">
+                  <span>PHYSICS SOLVER:</span>
+                  <span class="hud-val">XLA JIT (GPU)</span>
+                </div>
+                <div class="hud-metric-row">
+                  <span>COLLISION CONES:</span>
+                  <span class="hud-val highlight-emerald" id="hud-collisions">0 DETECTED</span>
+                </div>
+                <div class="hud-metric-row">
+                  <span>FORMATION ERROR:</span>
+                  <span class="hud-val" id="hud-formation-error">0.012 m</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="canvas-hud bottom-right-hud">
+              <div class="hud-box">
+                <div class="hud-title">REAL-TIME ATTITUDE (QUATERNIONS)</div>
+                <div class="hud-metric-row">
+                  <span>Q0: <span id="q0-val">0.9998</span></span>
+                  <span>Q1: <span id="q1-val">0.0124</span></span>
+                </div>
+                <div class="hud-metric-row">
+                  <span>Q2: <span id="q2-val">-0.0041</span></span>
+                  <span>Q3: <span id="q3-val">0.0089</span></span>
+                </div>
+                <div class="hud-metric-row">
+                  <span>PITCH/ROLL/YAW:</span>
+                  <span class="hud-val" id="attitude-degrees">0.71&deg; / -0.23&deg; / 1.02&deg;</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Monte Carlo Overlay Container (Visible in Monte Carlo tab) -->
+            <div class="monte-carlo-dashboard" id="mc-dashboard" style="display: none;">
+              <div class="mc-panel">
+                <div class="mc-header">
+                  <div>
+                    <h3 class="mc-title">100,000 SIMULTANEOUS MONTE CARLO TEST SUITE</h3>
+                    <p class="mc-sub">Batch stress-testing autonomous flight control across 100,000 randomized wind turbulence, sensor jitter, and actuator failure configurations.</p>
+                  </div>
+                  <button class="btn btn-primary" id="run-mc-batch-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    EXECUTE 100,000 RUNS
+                  </button>
+                </div>
+
+                <div class="mc-progress-bar-wrap">
+                  <div class="mc-progress-bar" id="mc-progress-bar" style="width: 0%;"></div>
+                </div>
+
+                <div class="mc-metrics-row">
+                  <div class="mc-metric-card">
+                    <span class="mc-metric-label">RUNS EXECUTED</span>
+                    <span class="mc-metric-val" id="mc-runs-counter">0 / 100,000</span>
+                  </div>
+                  <div class="mc-metric-card">
+                    <span class="mc-metric-label">WALL CLOCK TIME</span>
+                    <span class="mc-metric-val" id="mc-elapsed-time">0.00 s</span>
+                  </div>
+                  <div class="mc-metric-card">
+                    <span class="mc-metric-label">SURVIVAL RATE</span>
+                    <span class="mc-metric-val highlight-emerald" id="mc-survival-rate">100.0%</span>
+                  </div>
+                  <div class="mc-metric-card">
+                    <span class="mc-metric-label">CONVERGENCE</span>
+                    <span class="mc-metric-val" id="mc-convergence">PASS (99.98%)</span>
+                  </div>
+                </div>
+
+                <div class="mc-chart-box">
+                  <canvas id="mc-chart-canvas" width="1040" height="180"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sandbox Controls Footer -->
+          <div class="sandbox-controls-footer">
+            <div class="control-group">
+              <label for="agent-density-slider">AGENT DENSITY: <span id="agent-density-val">128</span></label>
+              <input type="range" id="agent-density-slider" min="16" max="384" value="128" step="16">
+            </div>
+
+            <div class="control-group">
+              <label for="turbulence-slider">TURBULENCE (GUSTS): <span id="turbulence-val">2.5 m/s</span></label>
+              <input type="range" id="turbulence-slider" min="0" max="15" value="2.5" step="0.5">
+            </div>
+
+            <div class="control-buttons-group">
+              <button class="btn-toggle active" id="btn-toggle-vectors">Vectors</button>
+              <button class="btn-toggle active" id="btn-toggle-grid">Mesh Grid</button>
+              <button class="btn-toggle" id="btn-trigger-fault">Inject Fault</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 4: One Codebase Maps Cloud Simulation to Physical Hardware -->
+    <section class="section-padded" id="codebase-pipeline">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag tag-blue">
+            <span class="tag-pulse-blue"></span>
+            SOLUTION 02 // UNIFIED CODEBASE ARCHITECTURE
+          </div>
+          <h2 class="section-title">One Codebase Maps Cloud Simulation to Physical Hardware.</h2>
+          <p class="section-desc">
+            Never translate your control software again. Ominis Systems closes the loop: the exact same Rust and Python algorithms that pass 100,000 Monte Carlo runs in the cloud compile directly onto Aleph flight hardware without modifying a single line of control logic.
+          </p>
+        </div>
+
+        <!-- Interactive SITL to HITL Pipeline Switcher -->
+        <div class="pipeline-switcher-container">
+          <div class="pipeline-switch-header">
+            <div class="pipeline-tabs">
+              <button class="pipeline-tab active" id="tab-sitl" data-view="sitl">
+                <span class="tab-indicator blue"></span>
+                <strong>Software-in-the-Loop (SITL)</strong>
+                <span class="tab-caption">Cloud Testing: Zero-friction validation of control software</span>
+              </button>
+              <button class="pipeline-tab" id="tab-hitl" data-view="hitl">
+                <span class="tab-indicator orange"></span>
+                <strong>Hardware-in-the-Loop (HITL)</strong>
+                <span class="tab-caption">Field Ready: Seamless tests against existing flight hardware</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Pipeline Architecture Diagram & Live Code Viewer -->
+          <div class="pipeline-content-grid">
+            <!-- Left: Interactive Code Block -->
+            <div class="code-terminal-card">
+              <div class="terminal-header">
+                <div class="terminal-dots">
+                  <span></span><span></span><span></span>
+                </div>
+                <div class="terminal-title" id="terminal-filename">flight_controller.rs (Unified SITL / HITL)</div>
+                <div class="terminal-badge" id="terminal-env-badge">ENV: CLOUD SIMULATION</div>
+              </div>
+              <pre class="terminal-code"><code id="code-snippet-display">
+<span class="kw">use</span> ominis_core::prelude::*;
+<span class="kw">use</span> ominis_sim::prelude::*;
+<span class="kw">use</span> ominis_aleph::avionics::*;
+
+<span class="comment">// Define continuous physical control system</span>
+<span class="attribute">#[derive(System)]</span>
+<span class="kw">pub struct</span> <span class="type">AttitudeControlSystem</span> {
+    <span class="kw">pub</span> target_attitude: <span class="type">Quaternion</span>,
+    <span class="kw">pub</span> pid_gains: <span class="type">GainVector3</span>,
+}
+
+<span class="kw">impl</span> <span class="type">FlightLoop</span> <span class="kw">for</span> <span class="type">AttitudeControlSystem</span> {
+    <span class="kw">fn</span> <span class="func">step</span>(&amp;<span class="kw">mut</span> <span class="self">self</span>, ctx: &amp;<span class="kw">mut</span> <span class="type">Context</span>) -&gt; <span class="type">ActuatorCommands</span> {
+        <span class="kw">let</span> imu = ctx.read_sensor::&lt;<span class="type">TripleImu</span>&gt;();
+        <span class="kw">let</span> error = <span class="self">self</span>.target_attitude * imu.quaternion.inverse();
+        
+        <span class="comment">// Computes 100% identically in Cloud GPU Sim and STM32H7 hard-realtime</span>
+        <span class="kw">let</span> torque = <span class="self">self</span>.pid_gains.calculate(error.to_euler_angles());
+        ActuatorCommands::from_torques(torque)
+    }
+}
+              </code></pre>
+            </div>
+
+            <!-- Right: Flow Diagram & Comparison Specs -->
+            <div class="pipeline-details-card">
+              <div class="pipeline-mode-info" id="sitl-info">
+                <div class="mode-badge blue">SITL ACTIVE // CLOUD VALIDATION</div>
+                <h3 class="pipeline-mode-title">Zero-Friction Cloud Software Validation</h3>
+                <p class="pipeline-mode-desc">
+                  Run simulated flight controllers on virtual physics targets. Scale across millions of simulated hours without hardware risks or range clearances.
+                </p>
+
+                <ul class="pipeline-feature-list">
+                  <li>
+                    <svg class="check-icon blue" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <strong>JAX/XLA GPU Compilation:</strong> Parallelizes tens of thousands of simultaneous scenarios.
+                  </li>
+                  <li>
+                    <svg class="check-icon blue" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <strong>Mock Peripherals:</strong> Virtual BMI270 IMUs, GPS receivers, and CAN buses stream synthetic telemetry with realistic sensor noise models.
+                  </li>
+                  <li>
+                    <svg class="check-icon blue" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <strong>Continuous Integration:</strong> Automated regression testing runs on every Git commit.
+                  </li>
+                </ul>
+
+                <div class="pipeline-metric-banner blue">
+                  <span>VALIDATION SPEEDUP:</span>
+                  <strong>10,000&times; REAL-TIME</strong>
+                </div>
+              </div>
+
+              <div class="pipeline-mode-info" id="hitl-info" style="display: none;">
+                <div class="mode-badge orange">HITL ACTIVE // FIELD READY AVIONICS</div>
+                <h3 class="pipeline-mode-title">Seamless Hardware Execution on Aleph</h3>
+                <p class="pipeline-mode-desc">
+                  Connect physical Aleph flight computers to the simulation loop. The simulator feeds real electrical signals through JST-GH, CAN, and PWM pins to test avionics at wire speed.
+                </p>
+
+                <ul class="pipeline-feature-list">
+                  <li>
+                    <svg class="check-icon orange" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <strong>NVIDIA Jetson Orin SOM:</strong> Executes deep learning vision and high-level decision trees.
+                  </li>
+                  <li>
+                    <svg class="check-icon orange" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <strong>Dual-Core STM32H7:</strong> Guarantees sub-millisecond hard-realtime motor and actuator loops.
+                  </li>
+                  <li>
+                    <svg class="check-icon orange" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <strong>Zero Code Rewrite:</strong> Binary builds cleanly with the exact same Rust crates and interfaces.
+                  </li>
+                </ul>
+
+                <div class="pipeline-metric-banner orange">
+                  <span>HARDWARE TIMING JITTER:</span>
+                  <strong>&lt; 2.4 MICROSECONDS</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 5: Modular Frameworks Standardize Field Deployment (Aleph Hardware) -->
+    <section class="section-padded bg-subtle" id="aleph-hardware">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag tag-orange">
+            <span class="tag-pulse-orange"></span>
+            SOLUTION 03 // MODULAR HARDWARE ARCHITECTURE
+          </div>
+          <h2 class="section-title">Modular Frameworks Standardize Field Deployment.</h2>
+          <p class="section-desc">
+            Say goodbye to proprietary, locked avionics boxes. The <strong>Aleph Flight Computer</strong> combines high-performance NVIDIA Jetson Orin edge computing with dual-core STM32H7 deterministic control in an open, modular 2-board standard.
+          </p>
+        </div>
+
+        <!-- Hardware Interactive Architecture Explorer -->
+        <div class="hardware-explorer-card">
+          <div class="hardware-nav-bar">
+            <div class="hw-tab-group">
+              <button class="hw-tab active" id="hw-tab-carrier" data-board="carrier">
+                <span class="hw-dot orange"></span>
+                Board 01: Carrier Board (NVIDIA Jetson Orin SOM)
+              </button>
+              <button class="hw-tab" id="hw-tab-expansion" data-board="expansion">
+                <span class="hw-dot blue"></span>
+                Board 02: Expansion Board (STM32H7 &amp; Sensors)
+              </button>
+              <button class="hw-tab" id="hw-tab-specs" data-board="specs">
+                <span class="hw-dot emerald"></span>
+                Full Pinout &amp; Datasheet Specs
+              </button>
+            </div>
+            <div class="hw-pricing-preview">
+              <span class="hw-price-tag">COTS PRICING: $300 - $2,100 USD</span>
+              <span class="hw-status-tag">IN STOCK &bull; SHIPS WORLDWIDE</span>
+            </div>
+          </div>
+
+          <!-- Board Visualization & Interactive Pin Inspector -->
+          <div class="hardware-stage-grid">
+            <!-- Left: Dynamic Board Schematic Render -->
+            <div class="board-schematic-view" id="board-schematic-view">
+              <div class="schematic-badge" id="schematic-board-title">ALEPH CARRIER BOARD // LAYER 1</div>
+              
+              <div class="schematic-canvas-wrap">
+                <!-- Vector SVG Schematic of Aleph Flight Computer -->
+                <svg id="board-svg" viewBox="0 0 600 400" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Board Base PCB -->
+                  <rect x="20" y="20" width="560" height="360" rx="14" fill="#0C121D" stroke="#2E5BFF" stroke-width="2"/>
+                  <rect x="28" y="28" width="544" height="344" rx="10" fill="none" stroke="rgba(255,255,255,0.06)" stroke-dasharray="4 4"/>
+
+                  <!-- Carrier Board Specific Elements (Jetson Orin) -->
+                  <g id="svg-carrier-layer">
+                    <!-- Heatsink Enclosure -->
+                    <rect x="150" y="70" width="280" height="200" rx="8" fill="#141E2F" stroke="#FF6B00" stroke-width="2"/>
+                    <line x1="170" y1="90" x2="410" y2="90" stroke="rgba(255,107,0,0.3)" stroke-width="3"/>
+                    <line x1="170" y1="120" x2="410" y2="120" stroke="rgba(255,107,0,0.3)" stroke-width="3"/>
+                    <line x1="170" y1="150" x2="410" y2="150" stroke="rgba(255,107,0,0.3)" stroke-width="3"/>
+                    <line x1="170" y1="180" x2="410" y2="180" stroke="rgba(255,107,0,0.3)" stroke-width="3"/>
+                    <line x1="170" y1="210" x2="410" y2="210" stroke="rgba(255,107,0,0.3)" stroke-width="3"/>
+                    <line x1="170" y1="240" x2="410" y2="240" stroke="rgba(255,107,0,0.3)" stroke-width="3"/>
+                    <text x="290" y="165" fill="#FFFFFF" font-family="Space Grotesk" font-size="16" font-weight="bold" text-anchor="middle">NVIDIA JETSON ORIN</text>
+                    <text x="290" y="190" fill="#FF6B00" font-family="IBM Plex Mono" font-size="12" text-anchor="middle">UP TO 100 TOPS AI COMPUTE</text>
+
+                    <!-- Samtec Interconnect -->
+                    <rect x="220" y="310" width="160" height="35" rx="4" fill="#1C273C" stroke="#00FF9D" stroke-width="1.5"/>
+                    <text x="300" y="332" fill="#00FF9D" font-family="IBM Plex Mono" font-size="10" text-anchor="middle">SAMTEC ERF5-050 CONNECTOR</text>
+
+                    <!-- Ports -->
+                    <rect class="pin-hover" data-pin="m2" x="35" y="60" width="80" height="30" rx="3" fill="#1A2234" stroke="#8A99AD"/>
+                    <text x="75" y="80" fill="#E2E8F0" font-family="IBM Plex Mono" font-size="9" text-anchor="middle">M.2 PCIe x4</text>
+
+                    <rect class="pin-hover" data-pin="usbc" x="35" y="110" width="80" height="30" rx="3" fill="#1A2234" stroke="#8A99AD"/>
+                    <text x="75" y="130" fill="#E2E8F0" font-family="IBM Plex Mono" font-size="9" text-anchor="middle">USB-C 10Gbps</text>
+
+                    <rect class="pin-hover" data-pin="gige" x="35" y="160" width="80" height="30" rx="3" fill="#1A2234" stroke="#8A99AD"/>
+                    <text x="75" y="180" fill="#E2E8F0" font-family="IBM Plex Mono" font-size="9" text-anchor="middle">GigE + PoE</text>
+
+                    <rect class="pin-hover" data-pin="csi" x="480" y="60" width="85" height="30" rx="3" fill="#1A2234" stroke="#8A99AD"/>
+                    <text x="522" y="80" fill="#E2E8F0" font-family="IBM Plex Mono" font-size="9" text-anchor="middle">MIPI CSI-2</text>
+
+                    <rect class="pin-hover" data-pin="pwr" x="480" y="110" width="85" height="30" rx="3" fill="#1A2234" stroke="#8A99AD"/>
+                    <text x="522" y="130" fill="#E2E8F0" font-family="IBM Plex Mono" font-size="9" text-anchor="middle">9-36V DC IN</text>
+                  </g>
+
+                  <!-- Expansion Board Layer (Hidden initially) -->
+                  <g id="svg-expansion-layer" style="display: none;">
+                    <rect x="200" y="100" width="180" height="150" rx="8" fill="#121C2B" stroke="#2E5BFF" stroke-width="2"/>
+                    <text x="290" y="160" fill="#FFFFFF" font-family="Space Grotesk" font-size="15" font-weight="bold" text-anchor="middle">STM32H757 DUAL-CORE</text>
+                    <text x="290" y="185" fill="#2E5BFF" font-family="IBM Plex Mono" font-size="11" text-anchor="middle">HARD REAL-TIME M7/M4</text>
+
+                    <!-- Sensors -->
+                    <circle cx="120" cy="110" r="18" fill="#162338" stroke="#00FF9D" stroke-width="1.5"/>
+                    <text x="120" y="114" fill="#00FF9D" font-family="IBM Plex Mono" font-size="8" text-anchor="middle">IMU &times;3</text>
+
+                    <circle cx="120" cy="170" r="18" fill="#162338" stroke="#00FF9D" stroke-width="1.5"/>
+                    <text x="120" y="174" fill="#00FF9D" font-family="IBM Plex Mono" font-size="8" text-anchor="middle">BMP581</text>
+
+                    <circle cx="120" cy="230" r="18" fill="#162338" stroke="#00FF9D" stroke-width="1.5"/>
+                    <text x="120" y="234" fill="#00FF9D" font-family="IBM Plex Mono" font-size="8" text-anchor="middle">BMM350</text>
+
+                    <!-- JST-GH Connectors -->
+                    <rect class="pin-hover" data-pin="pwm" x="460" y="60" width="110" height="26" rx="3" fill="#1D2A40" stroke="#FF6B00"/>
+                    <text x="515" y="77" fill="#FF6B00" font-family="IBM Plex Mono" font-size="9" text-anchor="middle">2&times; JST-GH PWM/ESC</text>
+
+                    <rect class="pin-hover" data-pin="can" x="460" y="105" width="110" height="26" rx="3" fill="#1D2A40" stroke="#2E5BFF"/>
+                    <text x="515" y="122" fill="#2E5BFF" font-family="IBM Plex Mono" font-size="9" text-anchor="middle">2&times; JST-GH CAN BUS</text>
+
+                    <rect class="pin-hover" data-pin="uart" x="460" y="150" width="110" height="26" rx="3" fill="#1D2A40" stroke="#2E5BFF"/>
+                    <text x="515" y="167" fill="#2E5BFF" font-family="IBM Plex Mono" font-size="9" text-anchor="middle">2&times; JST-GH GPS/UART</text>
+
+                    <rect class="pin-hover" data-pin="rc" x="460" y="195" width="110" height="26" rx="3" fill="#1D2A40" stroke="#8A99AD"/>
+                    <text x="515" y="212" fill="#E2E8F0" font-family="IBM Plex Mono" font-size="9" text-anchor="middle">1&times; JST-GH RC (SBUS)</text>
+
+                    <rect class="pin-hover" data-pin="rp2040" x="460" y="240" width="110" height="26" rx="3" fill="#1D2A40" stroke="#00FF9D"/>
+                    <text x="515" y="257" fill="#00FF9D" font-family="IBM Plex Mono" font-size="9" text-anchor="middle">RP2040 DEBUGGER</text>
+                  </g>
+                </svg>
+              </div>
+
+              <div class="schematic-caption">
+                <span class="caption-dot"></span> Click components or switch boards to inspect pinouts, sensors, and electrical interfaces.
+              </div>
+            </div>
+
+            <!-- Right: Interactive Pinout & Specs Panel -->
+            <div class="hardware-specs-sidepanel">
+              <div id="hw-detail-card" class="hw-detail-card">
+                <div class="spec-header">
+                  <span class="spec-tag tag-orange" id="spec-header-tag">UPPER CARRIER BOARD</span>
+                  <h3 class="spec-title" id="spec-header-title">NVIDIA Jetson Orin SOM</h3>
+                </div>
+
+                <p class="spec-description" id="spec-header-desc">
+                  Houses the NVIDIA Jetson Orin System-on-Module. Unlocks state-of-the-art vision models, LiDAR SLAM, object tracking, and deep reinforcement learning policies directly on airborne or orbital hardware.
+                </p>
+
+                <div class="spec-table-wrap">
+                  <table class="specs-table" id="specs-table">
+                    <tbody>
+                      <tr>
+                        <th>COMPUTE OPTIONS:</th>
+                        <td>Orin Nano 4GB (20 TOPS) &bull; Nano 8GB (40 TOPS) &bull; Orin NX 16GB (100 TOPS)</td>
+                      </tr>
+                      <tr>
+                        <th>SAMTEC INTERCONNECT:</th>
+                        <td>ERF5-050 high-density 50-pin board-to-board connector (PCIe x2, USB 2, 2x I2C, 2x SPI, CAN, UART)</td>
+                      </tr>
+                      <tr>
+                        <th>EXTERNAL I/O:</th>
+                        <td>M.2 Key-M PCIe x4, USB-C 10Gbps with DP/PD, GigE with PoE, MIPI CSI-2 camera ports</td>
+                      </tr>
+                      <tr>
+                        <th>POWER CONSUMPTION:</th>
+                        <td>7W - 25W configurable (Low-power standby mode available)</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="spec-actions">
+                  <a href="https://shop.elodin.systems" target="_blank" rel="noopener noreferrer" class="btn btn-primary-sm">Configure Hardware &rarr;</a>
+                  <button class="btn btn-ghost-sm" id="btn-inspect-expansion">Switch to Expansion Board</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom 3 Pillars: Open Architecture, AI Capable, Plug & Play OS -->
+          <div class="aleph-features-grid">
+            <div class="feature-box">
+              <div class="feature-icon orange">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16.5 9.4 7.55 4.24a1.78 1.78 0 0 0-2.5 1.55v12.42a1.78 1.78 0 0 0 2.5 1.55L16.5 14.6a1.78 1.78 0 0 0 0-3.2z"/></svg>
+              </div>
+              <h4 class="feature-title">Open Architecture</h4>
+              <p class="feature-text">
+                Customizable 'Aleph' flight computers. Modularity first with solder-free JST-GH quick disconnects. Easily field repair or swap ESCs, motors, and radio modems without replacing the core compute brick.
+              </p>
+            </div>
+
+            <div class="feature-box">
+              <div class="feature-icon blue">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg>
+              </div>
+              <h4 class="feature-title">AI Capability</h4>
+              <p class="feature-text">
+                Powered by the high-performance NVIDIA Jetson Orin SOM. Best-in-class GPU compute for real-time Edge AI/ML applications, autonomous perception, and mission decision-making.
+              </p>
+            </div>
+
+            <div class="feature-box">
+              <div class="feature-icon emerald">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <h4 class="feature-title">Plug-and-Play OS</h4>
+              <p class="feature-text">
+                Ready-to-fly software and ADCS integration. Out-of-the-box flight controller stacks that fly immediately with PX4 compatibility, homegrown controllers, or Ominis's Rust autonomy engine.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 6: Capturing Value Across the Development Lifecycle (Commercial Model) -->
+    <section class="section-padded" id="monetization">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag tag-emerald">
+            <span class="tag-pulse-emerald"></span>
+            BUSINESS MODEL &bull; VALUE CAPTURE
+          </div>
+          <h2 class="section-title">Capturing Value Across the Development Lifecycle.</h2>
+          <p class="section-desc">
+            Ominis Systems monetizes the complete aerospace journey: from high-margin recurring <strong>cloud simulation compute</strong> to commercial off-the-shelf <strong>flight computer hardware sales</strong>.
+          </p>
+        </div>
+
+        <div class="monetization-grid">
+          <!-- Stream 1: Simulation Services -->
+          <div class="pricing-card stream-simulation">
+            <div class="pricing-stream-tag">RECURRING CLOUD REVENUE</div>
+            <div class="pricing-header">
+              <div class="pricing-icon emerald">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+              </div>
+              <h3 class="pricing-title">Simulation Services</h3>
+              <p class="pricing-desc">
+                Usage-based access to massive cloud testing environments. Teams spin up thousands of GPU workers to stress-test swarm formations, aerodynamic corner cases, and sensor faults.
+              </p>
+            </div>
+
+            <div class="pricing-features-list">
+              <div class="pf-item">
+                <span class="pf-check">&check;</span>
+                <span><strong>Massive GPU Clusters:</strong> On-demand access to H100 / L40S GPU simulation pools.</span>
+              </div>
+              <div class="pf-item">
+                <span class="pf-check">&check;</span>
+                <span><strong>Usage-Based Tier:</strong> Pay-as-you-scale compute with automated CI/CD integration.</span>
+              </div>
+              <div class="pf-item">
+                <span class="pf-check">&check;</span>
+                <span><strong>Enterprise Private Cloud:</strong> ITAR / GovCloud deployments for defense contractors.</span>
+              </div>
+              <div class="pf-item">
+                <span class="pf-check">&check;</span>
+                <span><strong>100,000 Monte Carlo Bundles:</strong> Automated statistical safety and verification audits.</span>
+              </div>
+            </div>
+
+            <div class="pricing-calc-box">
+              <label for="compute-hours-slider" class="calc-label">ESTIMATED SIMULATION COMPUTE (HOURS/MO): <span id="compute-hours-val">250 hrs</span></label>
+              <input type="range" id="compute-hours-slider" min="50" max="2500" value="250" step="50">
+              <div class="calc-result">
+                <span>ESTIMATED USAGE VALUE:</span>
+                <strong id="sim-estimate-cost">$1,250 / mo</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stream 2: Hardware Deployment -->
+          <div class="pricing-card stream-hardware">
+            <div class="pricing-stream-tag orange">DIRECT HARDWARE SALES</div>
+            <div class="pricing-header">
+              <div class="pricing-icon orange">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+              </div>
+              <h3 class="pricing-title">Hardware Deployment</h3>
+              <p class="pricing-desc">
+                Commercial off-the-shelf open flight computer sales. From low-cost prototyping kits to aerospace-grade flight units certified for tactical drones and CubeSat constellations.
+              </p>
+            </div>
+
+            <div class="pricing-features-list">
+              <div class="pf-item">
+                <span class="pf-check orange">&check;</span>
+                <span><strong>Aleph Nano Edition ($300):</strong> Ideal for prototyping, universities, and sensor bench testing.</span>
+              </div>
+              <div class="pf-item">
+                <span class="pf-check orange">&check;</span>
+                <span><strong>Aleph Orin NX Flight Unit ($2,100):</strong> 100 TOPS, dual IMU triple redundancy, conformal coating.</span>
+              </div>
+              <div class="pf-item">
+                <span class="pf-check orange">&check;</span>
+                <span><strong>Open Modular Standard:</strong> Solder-free JST-GH peripherals and Samtec ERF5 expansion.</span>
+              </div>
+              <div class="pf-item">
+                <span class="pf-check orange">&check;</span>
+                <span><strong>Volume Fleet Discounts:</strong> Tiered discounts for drone swarm and satellite mass production.</span>
+              </div>
+            </div>
+
+            <div class="pricing-calc-box">
+              <label for="hardware-units-slider" class="calc-label">FLEET HARDWARE UNITS: <span id="hw-units-val">10 units</span></label>
+              <input type="range" id="hardware-units-slider" min="1" max="100" value="10" step="1">
+              <div class="calc-result">
+                <span>ESTIMATED HARDWARE BILL:</span>
+                <strong id="hw-estimate-cost">$12,600 USD</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 7: Next Steps / Core Architecture Approval Form -->
+    <section class="section-padded bg-subtle" id="next-steps">
+      <div class="container container-medium">
+        <div class="next-steps-card">
+          <div class="next-steps-badge">
+            <span class="badge-dot-blue"></span>
+            NEXT STEPS &bull; IMMEDIATE ACTION PLAN
+          </div>
+          
+          <h2 class="next-steps-heading">Approve Core Architecture for Hardware Prototyping.</h2>
+          <p class="next-steps-sub">
+            The foundation is laid. We invite partners, investors, and aerospace engineering leaders to validate the simulation stack and authorize initial flight hardware runs.
+          </p>
+
+          <div class="milestones-checklist">
+            <div class="milestone-item" id="milestone-1">
+              <div class="milestone-checkbox checked">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="milestone-content">
+                <strong>Validate the proposed Rust/JAX simulation toolkit structure.</strong>
+                <p>Confirm the ECS memory layouts, XLA automatic differentiation pipeline, and multi-GPU swarm scaling benchmarks.</p>
+              </div>
+            </div>
+
+            <div class="milestone-item" id="milestone-2">
+              <div class="milestone-checkbox checked">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="milestone-content">
+                <strong>Authorize initial prototyping of the Aleph flight computer.</strong>
+                <p>Greenlight fabrication of revision A carrier boards, Samtec ERF5 inter-connect validation, and thermal chamber qualification.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Approval & Contact Form -->
+          <form class="approval-form" id="approval-form">
+            <h3 class="form-title">Submit Architecture Approval / Access Briefing</h3>
+            
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="lead-name">FULL NAME *</label>
+                <input type="text" id="lead-name" class="form-input" placeholder="e.g. Dr. Jordan Vance" required>
+              </div>
+
+              <div class="form-group">
+                <label for="lead-email">ORGANIZATION / WORK EMAIL *</label>
+                <input type="email" id="lead-email" class="form-input" placeholder="e.g. j.vance@aerospace-autonomy.com" required>
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="lead-role">ROLE / TITLE</label>
+                <input type="text" id="lead-role" class="form-input" placeholder="e.g. VP of Flight Software / Principal Architect">
+              </div>
+
+              <div class="form-group">
+                <label for="lead-interest">PRIMARY INTEREST *</label>
+                <select id="lead-interest" class="form-input" required>
+                  <option value="both" selected>Full Architecture (Simulation + Aleph Hardware)</option>
+                  <option value="simulation">GPU-Accelerated Simulation Platform Only</option>
+                  <option value="aleph">Aleph Flight Computer Hardware Only</option>
+                  <option value="investment">Strategic Investment &amp; Partnership</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="lead-notes">PROJECT REQUIREMENTS OR NOTES</label>
+              <textarea id="lead-notes" class="form-input form-textarea" rows="3" placeholder="Tell us about your mission timeline, target airframe, or swarm configuration..."></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary btn-large w-full" id="submit-approval-btn">
+                Authorize Architecture &amp; Request Engineering SDK &rarr;
+              </button>
+            </div>
+
+            <div class="form-feedback" id="form-feedback" style="display: none;">
+              <span class="feedback-icon">&check;</span>
+              <span class="feedback-text">Architecture approval registered! The Ominis Systems engineering team will deliver the technical dossier and SDK credentials to your email.</span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technical FAQ Section -->
+    <section class="section-padded" id="faq">
+      <div class="container container-medium">
+        <div class="section-header">
+          <div class="section-tag tag-blue">TECHNICAL FREQUENTLY ASKED QUESTIONS</div>
+          <h2 class="section-title">Frequently Asked Questions</h2>
+          <p class="section-desc">Comprehensive details on our physics kernel, hardware standards, and deployment guarantees.</p>
+        </div>
+
+        <div class="faq-accordion-list">
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              <span>What is Ominis Systems?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Ominis Systems is a next-generation aerospace autonomy platform that eliminates custom infrastructure for physical AI. We combine a GPU-accelerated simulation platform (written in Rust and Python via JAX/XLA) with the open, modular Aleph flight computer, giving aerospace engineers a single codebase from cloud testing to real-world flight.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              <span>How does Ominis achieve 100,000 simultaneous Monte Carlo simulations?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Unlike traditional CPU simulation tools (such as MATLAB/Simulink or Gazebo) which run serial loops, Ominis compiles entire vehicle dynamics, aerodynamic forces, and numerical ODE solvers into GPU tensor operations via JAX and XLA (Accelerated Linear Algebra). This allows tens of thousands of flight profiles to execute in parallel across GPU threads in a fraction of a second.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              <span>How does one codebase map cloud simulation to Aleph hardware without changes?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Ominis decouples vehicle control systems from physical I/O through an Entity Component System (ECS) architecture. In Software-in-the-Loop (SITL) mode, sensor interfaces bind to high-fidelity virtual noise models and GPU physics. In Hardware-in-the-Loop (HITL) mode, the exact same Rust traits bind to hardware DMA buffers and JST-GH telemetry buses on the STM32H757 and NVIDIA Jetson Orin.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              <span>What are the specifications of the Aleph Flight Computer?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Aleph uses a dual-board open architecture connected by a high-density Samtec ERF5-050 connector. The Carrier Board houses an NVIDIA Jetson Orin SOM (up to 100 TOPS AI compute) with M.2 NVMe, USB-C 10Gbps, and GigE with PoE. The Expansion Board features a dual-core STM32H757 (Cortex-M7/M4), triple redundant BMI270 IMUs, BMP581 barometer, BMM350 magnetometer, CAN buses, UART/GPS, PWM ESC outputs, and an integrated RP2040 debugger.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              <span>Does Ominis support satellite and space missions?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Yes. Ominis includes native Attitude Determination and Control System (ADCS) algorithms, magnetic field models (IGRF), solar radiation pressure simulations, and orbital mechanics solvers tailored for 1U to 27U CubeSats and constellation swarms.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-top-grid">
+        <div class="footer-brand-col">
+          <div class="brand-logo">
+            <span class="brand-name">OMINIS</span>
+            <span class="brand-sub">SYSTEMS</span>
+          </div>
+          <p class="footer-tagline">
+            Eliminating custom infrastructure from physical AI. Sovereign autonomy, GPU simulation, and modular avionics.
+          </p>
+          <div class="footer-status-pill">
+            <span class="status-indicator"></span>
+            <span>ALL SYSTEMS OPERATIONAL // 2026.10</span>
+          </div>
+        </div>
+
+        <div class="footer-nav-col">
+          <h4 class="footer-heading">Platform</h4>
+          <ul class="footer-links">
+            <li><a href="#simulation">GPU Simulation Engine</a></li>
+            <li><a href="#codebase-pipeline">SITL &harr; HITL Pipeline</a></li>
+            <li><a href="#aleph-hardware">Aleph Flight Computer</a></li>
+            <li><a href="#sim-sandbox">Live Interactive Sandbox</a></li>
+            <li><a href="#monetization">Commercial Model</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-nav-col">
+          <h4 class="footer-heading">Technical Specs</h4>
+          <ul class="footer-links">
+            <li><a href="#aleph-hardware">NVIDIA Jetson Orin SOM</a></li>
+            <li><a href="#aleph-hardware">STM32H757 Dual-Core</a></li>
+            <li><a href="#aleph-hardware">Samtec ERF5 Pinout</a></li>
+            <li><a href="#simulation">Rust &amp; JAX Physics</a></li>
+            <li><a href="DESIGN.md" target="_blank">DESIGN.md System Specs</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-nav-col">
+          <h4 class="footer-heading">Next Steps</h4>
+          <ul class="footer-links">
+            <li><a href="#next-steps">Approve Architecture</a></li>
+            <li><a href="#next-steps">Request Prototyping Brief</a></li>
+            <li><a href="#faq">Technical FAQ</a></li>
+            <li><a href="mailto:contact@ominis.systems">contact@ominis.systems</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom-bar">
+        <div class="copyright-text">
+          &copy; 2026 Ominis Systems Inc. All rights reserved. Pitch idea &amp; architecture specification.
+        </div>
+        <div class="legal-links">
+          <a href="#">Security &amp; ITAR</a>
+          <a href="#">Terms of Architecture</a>
+          <a href="#">Privacy Protocol</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
