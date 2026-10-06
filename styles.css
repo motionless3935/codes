@@ -2171,6 +2171,33 @@ a:hover {
   .form-grid {
     grid-template-columns: 1fr;
   }
+  .economic-model {
+    padding: 24px 18px;
+  }
+  .economic-model-header,
+  .economic-principle {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .economic-phases {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .economic-phase,
+  .economic-phase + .economic-phase {
+    border-right: none;
+    border-bottom: 1px solid var(--border-ink);
+    padding: 0 0 20px;
+  }
+  .economic-phase:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .hardware-track {
+    align-items: flex-start;
+    flex-direction: column;
+  }
   .sandbox-controls-panel {
     flex-direction: column;
     align-items: flex-start;
@@ -2505,11 +2532,156 @@ a:hover {
   margin-bottom: 20px;
 }
 
-.pricing-stream-tag.orange {
+  .pricing-stream-tag.orange {
   background-color: var(--brick);
-}
+  }
 
-.pricing-icon {
+  .economic-model {
+  margin-top: 32px;
+  border: 2px solid var(--border-ink);
+  background: var(--ground-bone);
+  padding: 36px;
+  }
+
+  .economic-model-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 32px;
+  padding-bottom: 28px;
+  border-bottom: 2px solid var(--border-ink);
+  }
+
+  .economic-model-header h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 3vw, 2.5rem);
+  line-height: 1.05;
+  max-width: 520px;
+  margin: 0;
+  }
+
+  .economic-model-header p {
+  max-width: 360px;
+  color: var(--ink-muted);
+  font-size: 1.05rem;
+  line-height: 1.55;
+  margin: 0;
+  }
+
+  .economic-phases {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  margin-top: 28px;
+  }
+
+  .economic-phase {
+  display: flex;
+  gap: 16px;
+  padding: 4px 24px 12px 0;
+  border-right: 1px solid var(--border-ink);
+  }
+
+  .economic-phase + .economic-phase {
+  padding-left: 24px;
+  }
+
+  .economic-phase:last-child {
+  border-right: none;
+  }
+
+  .phase-number {
+  flex: 0 0 auto;
+  font-family: var(--font-mono);
+  color: var(--brick);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  }
+
+  .economic-phase h4, .hardware-track h4 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  line-height: 1.15;
+  margin: 0 0 10px;
+  }
+
+  .economic-phase h4 span, .hardware-track h4 span {
+  display: block;
+  font-family: var(--font-mono);
+  color: var(--ink-muted);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  margin-top: 5px;
+  text-transform: uppercase;
+  }
+
+  .economic-phase p, .hardware-track p {
+  color: var(--ink-muted);
+  font-size: 0.98rem;
+  line-height: 1.55;
+  margin: 0;
+  }
+
+  .economic-phase .phase-note {
+  color: var(--ink);
+  font-size: 0.86rem;
+  margin-top: 14px;
+  }
+
+  .hardware-track {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  border-top: 2px solid var(--border-ink);
+  border-bottom: 2px solid var(--border-ink);
+  margin-top: 28px;
+  padding: 22px 0;
+  }
+
+  .hardware-track-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 74px;
+  height: 74px;
+  background: var(--brick);
+  border: 2px solid var(--border-ink);
+  color: var(--ground-bone);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 800;
+  }
+
+  .hardware-track h4 {
+  margin-bottom: 4px;
+  }
+
+  .economic-principle {
+  display: flex;
+  gap: 24px;
+  align-items: baseline;
+  padding-top: 24px;
+  }
+
+  .principle-mark {
+  flex: 0 0 auto;
+  font-family: var(--font-mono);
+  color: var(--teal);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  }
+
+  .economic-principle p {
+  max-width: 800px;
+  color: var(--ink-muted);
+  font-size: 1.05rem;
+  line-height: 1.55;
+  margin: 0;
+  }
+
+  .pricing-icon {
   width: 48px;
   height: 48px;
   border: 2px solid var(--border-ink);
